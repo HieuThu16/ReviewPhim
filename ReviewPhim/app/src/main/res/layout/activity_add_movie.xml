@@ -1,0 +1,53 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edtMovieName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên phim"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edtStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ngày bắt đầu"
+        android:inputType="date"/>
+
+    <EditText
+        android:id="@+id/edtCompleted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tình trạng (0: chưa hoàn thành, 1: đã hoàn thành)"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/edtEpisodesWatched"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số tập đã xem"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/edtRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Điểm đánh giá (0 - 10)"
+        android:inputType="numberDecimal"/>
+
+    <Spinner
+        android:id="@+id/spinnerGenres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnSaveMovie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lưu phim"/>
+</LinearLayout>

@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên phim"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvGenre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thể loại"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ngày bắt đầu xem"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvCompleted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hoàn thành chưa"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvEpisodesWatched"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tập đã xem"
+        android:textSize="14sp" />
+
+    <!-- Thêm TextView cho điểm đánh giá -->
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Điểm đánh giá"
+        android:textSize="14sp" />
+</LinearLayout>
