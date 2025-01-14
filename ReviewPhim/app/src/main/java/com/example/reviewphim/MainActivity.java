@@ -2,11 +2,14 @@ package com.example.reviewphim;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
 
@@ -14,43 +17,54 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
     private MovieAdapter movieAdapter;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHelper = new DatabaseHelper(this);
+        // Khởi tạo các view
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewMovies);
+        Button btnAdd = findViewById(R.id.btnAdd);
 
-        recyclerView = findViewById(R.id.recyclerViewMovies); // Khởi tạo RecyclerView
-        Button btnAddMovie = findViewById(R.id.btnAddMovie);
-        Button btnAddGenre = findViewById(R.id.btnAddGenre);
+        // Khởi tạo DatabaseHelper
+        dbHelper = new DatabaseHelper(this);
 
         // Hiển thị danh sách phim
         List<Movie> movieList = dbHelper.getAllMovies();
-        movieAdapter = new MovieAdapter(movieList); // Sử dụng MovieAdapter đã khai báo sẵn
+        movieAdapter = new MovieAdapter(movieList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(movieAdapter);
 
-        // Sự kiện nút "Thêm phim"
+        // Sự kiện nhấn nút "Thêm"
+        btnAdd.setOnClickListener(v -> showAddOptions());
+    }
+
+    // Hàm hiển thị BottomSheetDialog
+    private void showAddOptions() {
+        // Tạo BottomSheetDialog
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_add_options, null);
+
+        // Gắn các nút trong BottomSheetDialog
+        Button btnAddMovie = bottomSheetView.findViewById(R.id.btnAddMovie);
+        Button btnAddGenre = bottomSheetView.findViewById(R.id.btnAddGenre);
+
+        // Xử lý sự kiện nút "Thêm phim"
         btnAddMovie.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddMovieActivity.class);
             startActivity(intent);
+            bottomSheetDialog.dismiss();
         });
 
-        // Sự kiện nút "Thêm thể loại"
+        // Xử lý sự kiện nút "Thêm thể loại"
         btnAddGenre.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddGenreActivity.class);
             startActivity(intent);
+            bottomSheetDialog.dismiss();
         });
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Cập nhật lại danh sách phim khi quay lại màn hình chính
-        List<Movie> movieList = dbHelper.getAllMovies();
-        movieAdapter.updateMovieList(movieList); // Cập nhật dữ liệu trong Adapter
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
     }
 }

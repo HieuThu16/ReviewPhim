@@ -3,26 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
-    <Button
-        android:id="@+id/btnAddMovie"
+    <!-- Thanh tìm kiếm -->
+    <EditText
+        android:id="@+id/edtSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm phim mới" />
+        android:hint="Tìm kiếm phim..."
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:layout_marginBottom="8dp"
+        android:elevation="2dp" />
 
-    <Button
-        android:id="@+id/btnAddGenre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Thêm thể loại mới" />
-
+    <!-- RecyclerView hiển thị danh sách phim -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMovies"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+
+    <!-- Thanh điều hướng dưới cùng -->
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:padding="8dp">
+
+        <!-- Nút Trang chủ -->
+        <Button
+            android:id="@+id/btnHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:drawableTop="@drawable/ic_home"
+            android:gravity="center_horizontal"
+            android:padding="8dp" />
+
+        <!-- Nút Thêm -->
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thêm"
+            android:drawableTop="@drawable/ic_add"
+            android:gravity="center_horizontal"
+            android:padding="8dp" />
+
+        <!-- Nút Thống kê -->
+        <Button
+            android:id="@+id/btnStatistics"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thống kê"
+            android:drawableTop="@drawable/ic_statistics"
+            android:gravity="center_horizontal"
+            android:padding="8dp" />
+    </LinearLayout>
 
 </LinearLayout>

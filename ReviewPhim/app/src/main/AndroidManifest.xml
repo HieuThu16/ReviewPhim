@@ -28,6 +28,8 @@
         <activity
             android:name=".AddGenreActivity"
             android:exported="false" />
+        <activity android:name=".StatisticsActivity" />
+
     </application>
 
 </manifest>

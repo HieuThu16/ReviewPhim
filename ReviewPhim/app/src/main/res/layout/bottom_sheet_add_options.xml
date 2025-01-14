@@ -1,0 +1,28 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Nút Thêm Phim -->
+    <Button
+        android:id="@+id/btnAddMovie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm phim mới"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"
+
+        android:textColor="@android:color/white" />
+
+    <!-- Nút Thêm Thể Loại -->
+    <Button
+        android:id="@+id/btnAddGenre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm thể loại mới"
+        android:padding="12dp"
+
+        android:textColor="@android:color/white" />
+</LinearLayout>
