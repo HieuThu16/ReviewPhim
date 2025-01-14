@@ -33,9 +33,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.title.setText(movie.getName());
         holder.episodesWatched.setText("Tập đã xem: " + movie.getEpisodesWatched());
         holder.rating.setText("Điểm đánh giá: " + movie.getRating());
+        holder.note.setText("Ghi chú: " + (movie.getGhiChu()
+                != null ? movie.getGhiChu() : "Không có"));
     }
 
-    @Override
+        @Override
     public int getItemCount() {
         return movieList.size();
     }
@@ -44,6 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         TextView title;
         TextView episodesWatched;
         TextView rating;
+        TextView note; // Thêm TextView để hiển thị ghi chú
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             title = itemView.findViewById(R.id.tvTitle);
             episodesWatched = itemView.findViewById(R.id.tvEpisodesWatched);
             rating = itemView.findViewById(R.id.tvRating);
+            note = itemView.findViewById(R.id.tvNote); // Ánh xạ TextView ghi chú
         }
     }
 

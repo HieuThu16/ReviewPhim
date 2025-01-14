@@ -40,11 +40,18 @@
         android:text="Tập đã xem"
         android:textSize="14sp" />
 
-    <!-- Thêm TextView cho điểm đánh giá -->
     <TextView
         android:id="@+id/tvRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Điểm đánh giá"
+        android:textSize="14sp" />
+
+    <!-- Thêm TextView cho ghi chú -->
+    <TextView
+        android:id="@+id/tvNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ghi chú"
         android:textSize="14sp" />
 </LinearLayout>

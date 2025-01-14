@@ -5,49 +5,64 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Trường nhập tên phim -->
     <EditText
         android:id="@+id/edtMovieName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tên phim"
-        android:inputType="text"/>
+        android:inputType="text" />
 
+    <!-- Trường chọn ngày xem bằng Calendar -->
     <EditText
         android:id="@+id/edtStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ngày bắt đầu"
-        android:inputType="date"/>
+        android:focusable="false"
+        android:clickable="true" />
 
+    <!-- Các trường khác -->
     <EditText
         android:id="@+id/edtCompleted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tình trạng (0: chưa hoàn thành, 1: đã hoàn thành)"
-        android:inputType="number"/>
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/edtEpisodesWatched"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Số tập đã xem"
-        android:inputType="number"/>
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/edtRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Điểm đánh giá (0 - 10)"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal" />
 
     <Spinner
         android:id="@+id/spinnerGenres"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edtNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ghi chú"
+        android:inputType="textMultiLine"
+        android:minHeight="100dp"
+        android:gravity="top"
+        android:padding="8dp" />
 
     <Button
         android:id="@+id/btnSaveMovie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lưu phim"/>
+        android:layout_marginTop="16dp"
+        android:text="Lưu phim" />
 </LinearLayout>
