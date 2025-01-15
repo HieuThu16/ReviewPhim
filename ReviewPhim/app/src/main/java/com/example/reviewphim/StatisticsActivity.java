@@ -1,46 +1,44 @@
 package com.example.reviewphim;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StatisticsActivity extends AppCompatActivity {
+
+    private PieChartView customPieChart;
+    private Spinner spinnerDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        // Ánh xạ các nút
-        Button btnHome = findViewById(R.id.btnHome);
-        Button btnAdd = findViewById(R.id.btnAdd);
-        Button btnStatistics = findViewById(R.id.btnStatistics);
+        // Ánh xạ view
+        customPieChart = findViewById(R.id.customPieChart);
+        spinnerDate = findViewById(R.id.spinnerDate);
 
-        // Nút Trang chủ
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(StatisticsActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Đóng Activity hiện tại
-            }
-        });
+        // Danh sách ngày giả lập
+        List<String> dateList = new ArrayList<>();
+        dateList.add("Hôm nay");
+        dateList.add("Hôm qua");
+        dateList.add("Ngày trước nữa");
 
-        // Nút Thêm
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Thực hiện một hành động khác hoặc chuyển Activity
-            }
-        });
+        // Cấu hình Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dateList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDate.setAdapter(adapter);
 
-        // Nút Thống kê (có thể giữ nguyên hoặc cập nhật nếu cần)
-        btnStatistics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Hiện tại bạn đang ở màn hình này, không cần chuyển
-            }
-        });
+        // Dữ liệu giả lập cho biểu đồ
+        float[] data = {30, 50, 20}; // Tỷ lệ phần trăm
+        int[] colors = {0xFFE57373, 0xFF81C784, 0xFF64B5F6}; // Màu sắc
+
+        // Hiển thị dữ liệu lên biểu đồ
+        customPieChart.setData(data, colors);
     }
 }

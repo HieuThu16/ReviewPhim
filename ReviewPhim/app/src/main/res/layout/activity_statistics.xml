@@ -6,56 +6,97 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <!-- Nội dung chính -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- ComboBox chọn ngày -->
+    <Spinner
+        android:id="@+id/spinnerDate"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Hello World!"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_weight="1" />
+        android:layout_marginBottom="16dp" />
+
+    <!-- Custom PieChart -->
+    <com.example.reviewphim.PieChartView
+        android:id="@+id/customPieChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="16dp" />
 
     <!-- Thanh điều hướng dưới cùng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:background="@color/white"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="8dp">
 
-        <!-- Nút Trang chủ -->
-        <Button
-            android:id="@+id/btnHome"
-            android:layout_width="0dp"
+        <!-- Thanh điều hướng dưới cùng -->
+        <LinearLayout
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Trang chủ"
-            android:drawableTop="@drawable/ic_home"
-            android:gravity="center_horizontal"
-            android:padding="8dp" />
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <!-- Nút Thêm -->
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Thêm"
-            android:drawableTop="@drawable/ic_add"
-            android:gravity="center_horizontal"
-            android:padding="8dp" />
+            <!-- Nút Trang chủ -->
+            <Button
+                android:id="@+id/btnHome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_home"
+                android:gravity="center_horizontal"
+                android:padding="8dp" />
+
+            <!-- Nút Thêm -->
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_add"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="Thêm" />
+
+            <!-- Nút Thống kê -->
+            <Button
+                android:id="@+id/btnStatistics"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_statistics"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="Thống kê" />
+        </LinearLayout>
 
         <!-- Nút Thống kê -->
-        <Button
+        <LinearLayout
             android:id="@+id/btnStatistics"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Thống kê"
-            android:drawableTop="@drawable/ic_statistics"
-            android:gravity="center_horizontal"
-            android:padding="8dp" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_statistics" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Thống kê"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
