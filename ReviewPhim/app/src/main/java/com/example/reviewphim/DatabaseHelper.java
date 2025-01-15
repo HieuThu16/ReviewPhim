@@ -4,9 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -192,6 +195,80 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return genreName;
         }
         return null;
+    }
+    // Phương thức lấy tổng số lượng phim trong ngày
+    public int getTotalMoviesInDay(String date) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM phim WHERE ngay_bat_dau = ?", new String[]{date});
+        int totalMovies = 0;
+        if (cursor.moveToFirst()) {
+            totalMovies = cursor.getInt(0);
+        }
+        cursor.close();
+        return totalMovies;
+    }
+
+    // Phương thức lấy số lượng phim theo thể loại trong ngày
+    public int getMoviesCountByGenreInDay(String date, String genre) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM phim WHERE ngay_bat_dau = ? AND theloai = ?", new String[]{date, genre});
+        int genreCount = 0;
+        if (cursor.moveToFirst()) {
+            genreCount = cursor.getInt(0);
+        }
+        cursor.close();
+        return genreCount;
+    }
+    public List<String> getAvailableDates() {
+        List<String> dateList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT DISTINCT ngay_bat_dau FROM phim ORDER BY ngay_bat_dau ASC", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                dateList.add(cursor.getString(0)); // Lấy ngày từ cột đầu tiên
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return dateList;
+    }
+
+    // Phương thức lấy thống kê số lượng phim theo thể loại trong ngày
+
+    public List<GenreStatistic> getGenreStatisticsForDate(String date) {
+        List<GenreStatistic> stats = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Integer> colors = getDefaultColors(); // Lấy danh sách màu
+
+        Cursor cursor = db.rawQuery(
+                "SELECT theloai.ten_theloai, COUNT(phim.ma_phim) AS so_luong " +
+                        "FROM phim " +
+                        "JOIN theloai ON phim.theloai = theloai.ma_theloai " +
+                        "WHERE phim.ngay_bat_dau = ? " +
+                        "GROUP BY theloai.ten_theloai",
+                new String[]{date});
+
+        int colorIndex = 0; // Dùng để lặp qua danh sách màu
+        if (cursor.moveToFirst()) {
+            do {
+                String genreName = cursor.getString(0); // Lấy tên thể loại
+                int count = cursor.getInt(1);          // Lấy số lượng phim
+                int color = colors.get(colorIndex % colors.size()); // Lấy màu theo thứ tự tuần hoàn
+                stats.add(new GenreStatistic(genreName, count, color));
+                colorIndex++; // Tăng chỉ số màu
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return stats;
+    }
+
+    private List<Integer> getDefaultColors() {
+        return Arrays.asList(
+                Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN,
+                Color.YELLOW, Color.LTGRAY, Color.DKGRAY, Color.BLACK, Color.WHITE
+        );
     }
 
 

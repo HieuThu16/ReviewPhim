@@ -10,8 +10,8 @@ import android.view.View;
 public class PieChartView extends View {
 
     private Paint paint;
-    private float[] data = {25, 35, 40}; // Phần trăm của từng phần
-    private int[] colors = {Color.RED, Color.GREEN, Color.BLUE}; // Màu sắc của từng phần
+    private float[] data = new float[]{100}; // Mặc định hiển thị nếu không có dữ liệu
+    private int[] colors = new int[]{Color.LTGRAY}; // Màu mặc định
 
     public PieChartView(Context context) {
         super(context);
@@ -33,6 +33,7 @@ public class PieChartView extends View {
     }
 
     @Override
+  
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
@@ -43,18 +44,34 @@ public class PieChartView extends View {
         int centerX = width / 2;
         int centerY = height / 2;
 
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(40);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
         for (int i = 0; i < data.length; i++) {
             float sweepAngle = (data[i] / 100) * 360;
             paint.setColor(colors[i]);
             canvas.drawArc(centerX - radius, centerY - radius, centerX + radius, centerY + radius,
                     startAngle, sweepAngle, true, paint);
+
+            // Tính toán vị trí để vẽ số lượng
+            float angle = startAngle + sweepAngle / 2;
+            float textX = (float) (centerX + radius / 1.5 * Math.cos(Math.toRadians(angle)));
+            float textY = (float) (centerY + radius / 1.5 * Math.sin(Math.toRadians(angle)));
+
+            canvas.drawText(String.format("%.1f%%", data[i]), textX, textY, textPaint);
+
             startAngle += sweepAngle;
         }
     }
 
+
     public void setData(float[] data, int[] colors) {
-        this.data = data;
-        this.colors = colors;
-        invalidate(); // Làm mới biểu đồ
+        if (data != null && colors != null && data.length == colors.length) {
+            this.data = data;
+            this.colors = colors;
+            invalidate(); // Làm mới biểu đồ
+        }
     }
 }
