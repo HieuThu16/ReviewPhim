@@ -100,4 +100,86 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return movieList;
     }
+    public List<Movie> searchMoviesByName(String query) {
+        List<Movie> movieList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Thêm tên bảng "phim" vào câu truy vấn
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PHIM + " WHERE " + COLUMN_TEN_PHIM + " LIKE ?", new String[]{"%" + query + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Movie movie = new Movie();
+                movie.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_MA_PHIM)));
+                movie.setName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TEN_PHIM)));
+                movie.setGenreId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_THELOAI_PHIM)));
+                movie.setStartDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NGAY_BAT_DAU)));
+                movie.setCompleted(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_KET_THUC_CHUA)));
+                movie.setEpisodesWatched(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_TAP_DA_XEM)));
+                movie.setRating(cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_DIEM_DANH_GIA)));
+                movie.setGhiChu(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_GHI_CHU))); // Lấy ghi chú
+                movieList.add(movie);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return movieList; // Trả về danh sách, có thể rỗng nếu không tìm thấy kết quả
+    }
+
+    public List<String> getAllGenres() {
+        List<String> genreList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_TEN_THELOAI + " FROM " + TABLE_THELOAI, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String genreName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TEN_THELOAI));
+                genreList.add(genreName);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return genreList;
+    }
+    public List<Movie> searchMoviesByNameAndGenre(String query, String genre) {
+        List<Movie> movieList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Tạo câu truy vấn tìm kiếm theo tên phim và thể loại
+        String querySQL = "SELECT * FROM " + TABLE_PHIM +
+                " WHERE " + COLUMN_TEN_PHIM + " LIKE ? " +
+                " AND " + COLUMN_THELOAI_PHIM + " IN (SELECT " + COLUMN_MA_THELOAI +
+                " FROM " + TABLE_THELOAI + " WHERE " + COLUMN_TEN_THELOAI + " = ?)";
+        Cursor cursor = db.rawQuery(querySQL, new String[]{"%" + query + "%", genre});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Movie movie = new Movie();
+                movie.setId(cursor.getInt(cursor.getColumnIndex("ma_phim")));
+                movie.setName(cursor.getString(cursor.getColumnIndex("ten_phim")));
+                movie.setGenreId(cursor.getInt(cursor.getColumnIndex("theloai")));
+                movie.setStartDate(cursor.getString(cursor.getColumnIndex("ngay_bat_dau")));
+                movie.setCompleted(cursor.getInt(cursor.getColumnIndex("ket_thuc_chua")));
+                movie.setEpisodesWatched(cursor.getInt(cursor.getColumnIndex("tap_da_xem")));
+                movie.setRating(cursor.getFloat(cursor.getColumnIndex("diem_danh_gia")));
+                movieList.add(movie);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return movieList;
+    }
+    public String getGenreNameById(int genreId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM genres WHERE id = ?", new String[]{String.valueOf(genreId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            String genreName = cursor.getString(cursor.getColumnIndex("name"));
+            cursor.close();
+            return genreName;
+        }
+        return null;
+    }
+
+
 }

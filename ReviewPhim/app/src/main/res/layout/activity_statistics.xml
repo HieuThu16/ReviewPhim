@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -5,57 +6,18 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <!-- Thanh tìm kiếm -->
-    <EditText
-        android:id="@+id/edtSearch"
-        android:layout_width="match_parent"
+    <!-- Nội dung chính -->
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Tìm kiếm phim..."
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:padding="8dp"
-        android:background="@android:color/white"
-        android:layout_marginBottom="8dp"
-        android:elevation="2dp" />
-
-    <!-- Tìm kiếm nâng cao -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <!-- Nhãn -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thể loại:"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:layout_gravity="center_vertical"
-            android:paddingEnd="8dp" />
-
-        <!-- Dropdown Spinner -->
-        <Spinner
-            android:id="@+id/spinnerGenre"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:drawable/btn_dropdown"
-            android:padding="8dp" />
-    </LinearLayout>
-
-    <!-- RecyclerView hiển thị danh sách phim -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMovies"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        android:clipToPadding="false" />
+        android:layout_gravity="center"
+        android:text="Hello World!"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:layout_weight="1" />
 
     <!-- Thanh điều hướng dưới cùng -->
     <LinearLayout
-        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -69,6 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="Trang chủ"
             android:drawableTop="@drawable/ic_home"
             android:gravity="center_horizontal"
             android:padding="8dp" />
@@ -95,5 +58,4 @@
             android:gravity="center_horizontal"
             android:padding="8dp" />
     </LinearLayout>
-
 </LinearLayout>

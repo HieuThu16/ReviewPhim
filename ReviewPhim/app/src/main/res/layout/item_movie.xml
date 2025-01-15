@@ -2,56 +2,55 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tên phim"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:text="Tên Phim" />
 
+    <!-- Thêm TextView cho thể loại -->
     <TextView
         android:id="@+id/tvGenre"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thể loại"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvStartDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ngày bắt đầu xem"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvCompleted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hoàn thành chưa"
-        android:textSize="14sp" />
+        android:text="Thể loại: Action" />
 
     <TextView
         android:id="@+id/tvEpisodesWatched"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tập đã xem"
-        android:textSize="14sp" />
+        android:text="Tập đã xem: 0" />
 
     <TextView
         android:id="@+id/tvRating"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Điểm đánh giá"
-        android:textSize="14sp" />
+        android:text="Điểm đánh giá: 0" />
 
-    <!-- Thêm TextView cho ghi chú -->
     <TextView
         android:id="@+id/tvNote"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ghi chú"
-        android:textSize="14sp" />
+        android:text="Ghi chú: Không có" />
+
+    <!-- Thêm TextView cho ngày bắt đầu xem -->
+    <TextView
+        android:id="@+id/tvStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày bắt đầu xem: 01/01/2025" />
+
+    <!-- Thêm TextView cho trạng thái "Hoàn thành chưa" -->
+    <TextView
+        android:id="@+id/tvCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hoàn thành: Chưa" />
+
 </LinearLayout>
