@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,14 +80,28 @@ public class MainActivity extends AppCompatActivity {
 
         // Thiết lập Spinner thể loại
         List<String> genreList = dbHelper.getAllGenres();
+
+// In danh sách ra logcat
+        for (String genre : genreList) {
+            Log.d("GenreList", genre);
+        }
+
+// Thêm mục "Tất cả" vào đầu danh sách
+        genreList.add(0, "Tất cả");
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genreList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerGenre.setAdapter(adapter);
+
 
         // Sự kiện khi chọn thể loại từ Spinner
         spinnerGenre.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedGenre = spinnerGenre.getSelectedItem().toString();
+
+                // In thể loại được chọn ra logcat
+                Log.d("SelectedGenre", "Thể loại được chọn: " + selectedGenre);
                 filterMovies(edtSearch.getText().toString());
             }
 
@@ -98,12 +114,15 @@ public class MainActivity extends AppCompatActivity {
         // Lấy thể loại được chọn
         String selectedGenre = spinnerGenre.getSelectedItem().toString();
 
-        // Nếu người dùng không nhập tên phim, tìm kiếm theo thể loại
+        // Danh sách phim đã lọc
         List<Movie> filteredList;
-        if (selectedGenre != null && !selectedGenre.isEmpty()) {
-            filteredList = dbHelper.searchMoviesByNameAndGenre(query, selectedGenre);
-        } else {
+
+        if ("Tất cả".equals(selectedGenre)) {
+            // Nếu chọn "Tất cả", tìm kiếm theo tên mà không lọc thể loại
             filteredList = dbHelper.searchMoviesByName(query);
+        } else {
+            // Tìm kiếm theo tên và thể loại
+            filteredList = dbHelper.searchMoviesByNameAndGenre(query, selectedGenre);
         }
 
         // Kiểm tra danh sách phim đã lọc
@@ -114,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         // Cập nhật danh sách phim cho RecyclerView
         movieAdapter.updateList(filteredList);
     }
+
 
     // Hàm hiển thị BottomSheetDialog
     private void showAddOptions() {
@@ -126,11 +146,12 @@ public class MainActivity extends AppCompatActivity {
         Button btnAddGenre = bottomSheetView.findViewById(R.id.btnAddGenre);
 
         // Xử lý sự kiện nút "Thêm phim"
+        // Khởi chạy AddMovieActivity với requestCode
         btnAddMovie.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddMovieActivity.class);
-            startActivity(intent);
-            bottomSheetDialog.dismiss();
+            startActivityForResult(intent, 1); // Request code là 1
         });
+
 
         // Xử lý sự kiện nút "Thêm thể loại"
         btnAddGenre.setOnClickListener(v -> {
@@ -142,4 +163,16 @@ public class MainActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Lấy danh sách phim mới từ Database
+            List<Movie> updatedMovieList = dbHelper.getAllMovies();
+            movieAdapter.updateList(updatedMovieList); // Cập nhật RecyclerView
+            Toast.makeText(this, "Danh sách phim đã được cập nhật!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

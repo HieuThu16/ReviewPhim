@@ -90,10 +90,14 @@ public class AddMovieActivity extends AppCompatActivity {
 
                 if (result != -1) {
                     Toast.makeText(this, "Thêm phim thành công!", Toast.LENGTH_SHORT).show();
-                    finish();
+
+                    // Trả kết quả thành công về MainActivity
+                    setResult(RESULT_OK);
+                    finish(); // Đóng AddMovieActivity
                 } else {
                     Toast.makeText(this, "Thêm phim thất bại!", Toast.LENGTH_SHORT).show();
                 }
+
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Dữ liệu nhập không hợp lệ!", Toast.LENGTH_SHORT).show();
             }

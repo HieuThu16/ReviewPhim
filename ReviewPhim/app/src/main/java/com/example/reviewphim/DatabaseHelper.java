@@ -145,31 +145,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Movie> movieList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Tạo câu truy vấn tìm kiếm theo tên phim và thể loại
-        String querySQL = "SELECT * FROM " + TABLE_PHIM +
-                " WHERE " + COLUMN_TEN_PHIM + " LIKE ? " +
-                " AND " + COLUMN_THELOAI_PHIM + " IN (SELECT " + COLUMN_MA_THELOAI +
-                " FROM " + TABLE_THELOAI + " WHERE " + COLUMN_TEN_THELOAI + " = ?)";
-        Cursor cursor = db.rawQuery(querySQL, new String[]{"%" + query + "%", genre});
+        // Lấy mã thể loại từ bảng thể loại
+        String genreId = null;
+        Cursor genreCursor = db.rawQuery("SELECT " + COLUMN_MA_THELOAI +
+                " FROM " + TABLE_THELOAI +
+                " WHERE " + COLUMN_TEN_THELOAI + " = ?", new String[]{genre});
 
-        if (cursor.moveToFirst()) {
-            do {
-                Movie movie = new Movie();
-                movie.setId(cursor.getInt(cursor.getColumnIndex("ma_phim")));
-                movie.setName(cursor.getString(cursor.getColumnIndex("ten_phim")));
-                movie.setGenreId(cursor.getInt(cursor.getColumnIndex("theloai")));
-                movie.setStartDate(cursor.getString(cursor.getColumnIndex("ngay_bat_dau")));
-                movie.setCompleted(cursor.getInt(cursor.getColumnIndex("ket_thuc_chua")));
-                movie.setEpisodesWatched(cursor.getInt(cursor.getColumnIndex("tap_da_xem")));
-                movie.setRating(cursor.getFloat(cursor.getColumnIndex("diem_danh_gia")));
-                movieList.add(movie);
-            } while (cursor.moveToNext());
+        if (genreCursor.moveToFirst()) {
+            genreId = genreCursor.getString(genreCursor.getColumnIndex(COLUMN_MA_THELOAI));
+        }
+        genreCursor.close();
+
+        if (genreId != null) {
+            // Lấy danh sách phim từ bảng phim theo mã thể loại
+            Cursor movieCursor = db.rawQuery("SELECT * FROM " + TABLE_PHIM +
+                    " WHERE " + COLUMN_TEN_PHIM + " LIKE ? " +
+                    " AND " + COLUMN_THELOAI_PHIM + " = ?", new String[]{"%" + query + "%", genreId});
+
+            if (movieCursor.moveToFirst()) {
+                do {
+                    Movie movie = new Movie();
+                    movie.setId(movieCursor.getInt(movieCursor.getColumnIndex("ma_phim")));
+                    movie.setName(movieCursor.getString(movieCursor.getColumnIndex("ten_phim")));
+                    movie.setGenreId(movieCursor.getInt(movieCursor.getColumnIndex("theloai")));
+                    movie.setStartDate(movieCursor.getString(movieCursor.getColumnIndex("ngay_bat_dau")));
+                    movie.setCompleted(movieCursor.getInt(movieCursor.getColumnIndex("ket_thuc_chua")));
+                    movie.setEpisodesWatched(movieCursor.getInt(movieCursor.getColumnIndex("tap_da_xem")));
+                    movie.setRating(movieCursor.getFloat(movieCursor.getColumnIndex("diem_danh_gia")));
+                    movieList.add(movie);
+                } while (movieCursor.moveToNext());
+            }
+            movieCursor.close();
         }
 
-        cursor.close();
         db.close();
         return movieList;
     }
+
+
     public String getGenreNameById(int genreId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT name FROM genres WHERE id = ?", new String[]{String.valueOf(genreId)});
